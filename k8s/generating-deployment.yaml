@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: generating-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: generator
+  template:
+    metadata:
+      labels:
+        component: generator
+    spec: 
+      containers:
+        - name: generating
+          image: dominikoman16/task1
+          ports:
+            - containerPort: 8080 
