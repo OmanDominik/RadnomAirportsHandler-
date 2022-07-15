@@ -15,6 +15,7 @@ spec:
       containers:
         - name: handling
           image: dominikoman16/task2
+          imagePullPolicy: Always
           ports:
             - containerPort: 9090 
           args: ["--generating.url=http://generating-cluster-ip-service:8080/"]

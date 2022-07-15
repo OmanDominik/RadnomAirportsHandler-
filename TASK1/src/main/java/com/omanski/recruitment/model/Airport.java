@@ -1,7 +1,10 @@
 package com.omanski.recruitment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -9,6 +12,9 @@ import java.util.*;
 @Data
 @AllArgsConstructor
 @ToString
+@Document
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Airport {
 
     public static HashMap<String, Field> fieldsMap;
@@ -35,7 +41,9 @@ public class Airport {
 
     }
 
+
     private String _type;
+    @Id
     private int _id;
     private int key;
     private String name;
