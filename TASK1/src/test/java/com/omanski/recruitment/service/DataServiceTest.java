@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBeans;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -23,42 +24,44 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 class DataServiceTest {
 
-//    @MockBean
-//    AirportsRepository airportsRepository;
-//
-//    @MockBean
-//    AirportService airportService = new AirportService(airportsRepository);
-//
-//    @InjectMocks
-//    DataService dataService = new DataService(airportService);
-//
-//
-//    @Test
-//    void generateJsons() {
-//        //given
-//        int sizeOfListToGenerate = 2;
-//        Airport sampleAirport = new Airport("uTUclIFUdn", 15, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
-//                "EZP", "AwOFMFUW", "nIkaLW",
-//                new GeoPosition(-11.0f, -71.2f),
-//                468, false, "UX", false, 2614);
-//
-//
-//        try (MockedStatic<Airport> mockedStatic = Mockito.mockStatic(Airport.class)) {
-//
-//            mockedStatic
-//                    .when(Airport::getRandomInstance)
-//                    .thenReturn(sampleAirport);
-//            Mockito
-//                    .when(airportService.save(sampleAirport))
-//                    .thenReturn(sampleAirport);
-//
-//
-//            //when
-//            List<Airport> generatedList = dataService.generateJsons(sizeOfListToGenerate);
-//
-//            //then
-//            assertThat(generatedList.size()).isEqualTo(sizeOfListToGenerate);
-//            assertThat(generatedList).isEqualTo(List.of(sampleAirport, sampleAirport));
-//        }
-//    }
+    @MockBean
+    AirportsRepository airportsRepository;
+
+    @MockBean
+    AirportService airportService = new AirportService(airportsRepository);
+
+    @InjectMocks
+    DataService dataService = new DataService(airportService);
+
+    @Test
+    void generateJsons() {
+        //given
+        int sizeOfListToGenerate = 2;
+        Airport sampleAirport = new Airport("uTUclIFUdn", 15, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
+                "EZP", "AwOFMFUW", "nIkaLW",
+                new GeoPosition(-11.0f, -71.2f),
+                468, false, "UX", false, 2614);
+
+        Mockito
+                .when(airportService.save(sampleAirport))
+                .thenReturn(sampleAirport);
+
+        try (MockedStatic<Airport> mockedStatic = Mockito.mockStatic(Airport.class)) {
+
+            mockedStatic
+                    .when(Airport::getRandomInstance)
+                    .thenReturn(sampleAirport);
+
+            Mockito
+                    .when(airportsRepository.findById(15))
+                    .thenReturn(null);
+
+            //when
+            List<Airport> generatedList = dataService.generateJsons(sizeOfListToGenerate);
+
+            //then
+            assertThat(generatedList.size()).isEqualTo(sizeOfListToGenerate);
+            assertThat(generatedList).isEqualTo(List.of(sampleAirport, sampleAirport));
+        }
+    }
 }

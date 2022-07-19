@@ -8,9 +8,7 @@ springdoc:
 spring:
   data:
     mongodb:
-      host: mongodb
       port: 27017
       authentication-database: admin
-      username: user
-      password: pass
-      database: airportsDB
+      username: '${MONGO_USERNAME:user}'
+      host: '${MONGO_HOST:localhost}'
